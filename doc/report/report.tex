@@ -500,9 +500,7 @@ end App
 %\end{wrapfigure}
 
 \vref{fig:tinycore:app} implements a small application that defines a bunch of integers and some booleans over any domain of representation \ScalaI{R}%
-\footnote{Essentially, \ScalaI{R} is universally quantified: Everything that \ScalaI{App} defines is valid $\forall$ \ScalaI{R}. We note that this universal quantification of the generic parameter \ScalaI{R} is a Scala feature, not a tagless-final feature.}. Notice that we choose to keep \ScalaI{R} generic, passing it on to \ScalaI{Core}. This means that regardless of any interpretation we choose, whatever term we define in \ScalaI{App} carries with it its computational semantics, doing so in a denotational way. For instance, \ScalaI{two} is defined compositionally using the previous definition of \ScalaI{one} and the \ScalaI{add} operation. As trivial as it may seem, essentially we have a computational definition that corresponds to what one would write as ``$2 = 1 + 1$'', a recipe to get ``$2$'' provided that ``$1$'' and ``$+$'' are given, only that we do not fix either the representation of ``$1$'' or what ``$+$'' computes and how! We only fix the compositional way to get a ``$2$'' from ``$1$'' and ``$+$''%
-\todo{We may want to explain other stuff related to semantics, like evaluation order or strictness vs laziness, and how we basically assume ``just Scala semantics'' here.}%
-. As a side note, the type annotations for the terms we defined in \autoref{fig:tinycore:app} are not necessary, since the Scala compiler can infer them. They are there for clarity.
+\footnote{Essentially, \ScalaI{R} is universally quantified: Everything that \ScalaI{App} defines is valid $\forall$ \ScalaI{R}. We note that this universal quantification of the generic parameter \ScalaI{R} is a Scala feature, not a tagless-final feature.}. Notice that we choose to keep \ScalaI{R} generic, passing it on to \ScalaI{Core}. This means that regardless of any interpretation we choose, whatever term we define in \ScalaI{App} carries with it its computational semantics, doing so in a denotational way. For instance, \ScalaI{two} is defined compositionally using the previous definition of \ScalaI{one} and the \ScalaI{add} operation. As trivial as it may seem, essentially we have a computational definition that corresponds to what one would write as ``$2 = 1 + 1$'', a recipe to get ``$2$'' provided that ``$1$'' and ``$+$'' are given, only that we do not fix either the representation of ``$1$'' or what ``$+$'' computes and how! We only fix the compositional way to get a ``$2$'' from ``$1$'' and ``$+$''. As a side note, the type annotations for the terms we defined in \autoref{fig:tinycore:app} are not necessary, since the Scala compiler can infer them. They are there for clarity.
 
 This is all nice and abstract but how can we get a concrete result? Very easily, we can compose the direct interpretation of \autoref{fig:tinycore:direct} with our application of \autoref{fig:tinycore:app}:
 
@@ -516,7 +514,7 @@ object DirectApp extends App[Id] with DirectCore
 \footnote{The \ScalaI{@main} annotation is handy, as it instructs the Scala compiler to create a \textit{main} function that is directly executable; this behaves like the \ScalaI{main()} function in the C language.}%
 we get:
 
-\par\ScalaI{2}
+\ScalaI{2}
 
 \noindent as expected, since \ScalaI{DirectCore} computes values directly!
 
@@ -1634,7 +1632,7 @@ And now, on to the constructive\FirstEtcX{2} part. We'll proceed by example, wit
   \ScalaI{given given_SeqTy[T](using aw_t Ty[T]): Ty[Seq[T]] = Ty.SeqTy(w_t)}
 \end{itemize}
 
-In essence, the above algorithmic rules reconstruct the types that appear in our eDSL code, at the value level. The rules follow the Scala compiler's type inference process, creating witnesses of the inferred types. This way we transcend compile-time and move on to runtime in a completely declarative way. We model this \textit{type inference} process using a trait parameterized by the interpretation \ScalaI{R[_]}. Below we show a glimpse of this model, while the reader can find the full details in \autoref{sec:appendix}.
+In essence, the above algorithmic rules reconstruct the types that appear in our eDSL code, at the value level. The rules follow the Scala compiler's type inference process, creating witnesses of the inferred types. This way we transcend compile-time and move on to runtime in a completely declarative way. We model this \textit{type inference} process using a trait parameterized by the interpretation \ScalaI{R[_]}. Below we show a glimpse of this model, while the reader can find more rules in \autoref{sec:appendix}.
 
 \begin{ScalaBlockSimple}
 trait TypeInference[R[_]]:
@@ -1688,7 +1686,7 @@ the case when there is a value of type $A$ and the $\Diamond$ case corresponds t
 \end{description}
 \end{quote}
 
-In our approach, these definitions can be replaced with corresponding computational notation, which also happens to have a meaning in a real programming language. For instance, we have seen that sequences are represented by the \ScalaI{Seq[X]} primitive type, and we make some specific assumptions about how \ScalaI{Seq}uences behave. These assumptions are derived from the semantics and the algorithmic complexity of Scala's \ScalaI{immutable.Map} and are applicable to the direct interpretation: in a sense, the direct interpretation provides a ``reference semantics''. We can use this reference semantics as a basis to ``complete'' the diagram of \vref{fig:commutative-diagram}, in the sense of making it a commutative one. Following a similar reasoning as with \ScalaI{Seq}s, \ScalaI{Map}s have a corresponding primitive type as well. Functions are the usual functions and we can model total ones by the type \ScalaI{A => Option[B]}, where:
+In our approach, these definitions are replaced with corresponding computational notation, which also has a meaning in a programming language, and is therefore familiar to software engineers. For instance, we have seen that sequences are represented by the \ScalaI{Seq[X]} primitive type, and we can make, if we desire so, assumptions about how they behave. These assumptions can be derived from the semantics and the algorithmic complexity of Scala's \ScalaI{immutable.Seq} and are applicable to any direct interpretation: in a sense, the direct interpretation we choose to implement can guide us to a ``reference computational semantics''. We can use this reference semantics as a basis to ``complete'' the diagram of \vref{fig:commutative-diagram}, in the sense of making it a commutative one. It's up to us to specify the ``base'' computational semantics that every representation \ScalaI{R[_]} should adhere to.  Following a similar reasoning as with \ScalaI{Seq}s, \ScalaI{Map}s have a corresponding primitive type as well. Functions are the usual functions and we can model total ones by the type \ScalaI{A => Option[B]}, where:
 
 \begin{ScalaBlockSimple}
 type Option[T] = scala.Option[T]
