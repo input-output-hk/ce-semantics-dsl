@@ -377,9 +377,7 @@ Our contributions are:
 	\item Based on the second AST, we provide an extensible, visitor-based, code generation framework and use it to implement a Scala~3 code generator. With the latter, we can reconstruct the original Scala source code almost faithfully, and we open up possibilities for automatic generation of property tests suites.
 		
 	\item We suggest a way for semantics to be built up gradually in a pragmatic way. We assume the semantics of some foundational, underlying computational notions (primitive types and operations) and build our own ledger (and other systems) semantics on top. This could provide a way on how to approach formalization in similar ways, that is compositionally.
-	
-	\item Whereas types and operations in the Cardano Ledger Spec may left as abstract or implicit, everything in our approach is explicit. If we need to use some operation, then the nature and semantic details must be known, regardless of whether the details may be an approximation. In essence, we explicitly declare what we need, and we have the option to refine it later.
-	
+		
 	  \item From the design point of view, we show that the tagless-final representation, which parametrizes the eDSL at the type level, can also be present outside the eDSL as well. In essence, we show how to seamlessly combine code in the tagless-final style and code not in the tagless-final style. This exercise is crucial because shows what can or should be done externally to the tagless-final eDSL: not everything needs to be embedded.
 	  
 	  \item Although the idea of denotational semantics is very explicit and well-defended in the papers we base our work on, here we make it the starting, and even foundational, point. If this is a mistake, it is ours only. But we are very clear and loud: Denotational semantics is a practical way to semantics engineering, and tagless-final is it's best ambassador.
