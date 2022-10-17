@@ -1,0 +1,6 @@
+# just use cargo
+build: system-info
+  cargo build
+
+system-info:
+  @echo "Running on {{arch()}}/{{os_family()}}/{{os()}}"
